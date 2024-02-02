@@ -15,6 +15,7 @@ def status():
         resp = {"status": "OK"}
         return jsonify(resp)
 
+
 def get_stats():
     """Retrieve the number of each object type"""
     stats = {
