@@ -7,7 +7,6 @@ from datetime import datetime
 import inspect
 import models
 from models.engine import file_storage
-from models.engine.db_storage import DBStorage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -123,7 +122,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
         """Test the get method"""
-        storage = DBStorage()
+        storage = file_storage()
         new_obj = State(name="California")
         storage.new(new_obj)
         storage.save()
@@ -133,7 +132,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
         """Test the count method"""
-        storage = DBStorage()
+        storage = file_storage()
         count_before = storage.count(State)
         new_obj = State(name="New York")
         storage.new(new_obj)
