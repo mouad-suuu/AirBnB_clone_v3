@@ -49,19 +49,14 @@ class FileStorage:
             json.dump(json_objects, f)
 
     def reload(self):
-        """
-            if file exists, deserializes JSON file to __objects, else nothing
-        """
-        fname = FileStorage.__file_path
-        FileStorage.__objects = {}
+        """deserializes the JSON file to __objects"""
         try:
-            with open(fname, mode='r', encoding='utf-8') as f_io:
-                new_objs = json.load(f_io)
+            with open(self.__file_path, 'r') as f:
+                jo = json.load(f)
+            for key in jo:
+                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
         except:
-            return
-        for o_id, d in new_objs.items():
-            k_cls = d['__class__']
-            FileStorage.__objects[o_id] = FileStorage.CNC[k_cls](**d)
+            pass
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
