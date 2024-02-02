@@ -4,7 +4,6 @@ from flask import jsonify, abort, request
 from models import storage
 from models.city import City
 from models.state import State
-
 from api.v1.views import app_views
 
 
@@ -49,9 +48,9 @@ def create_city(state_id):
         abort(400, description="Not a JSON")
     if 'name' not in request_data:
         abort(400, description="Missing name")
-    new_city = City(name=request_data['name'], state_id=state_id)
-    storage.new(new_city)
-    storage.save()
+    request_data['state_id'] = state_id
+    new_city = City(**request_data)
+    new_city.save()
     return jsonify(new_city.to_dict()), 201
 
 
@@ -67,5 +66,5 @@ def update_city(city_id):
     for key, value in request_data.items():
         if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)
-    storage.save()
+    city.save()
     return jsonify(city.to_dict()), 200
