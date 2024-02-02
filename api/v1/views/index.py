@@ -6,7 +6,7 @@ from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', methods=['GET'])
 def status():
     """
     function for status route that returns the status
@@ -14,6 +14,7 @@ def status():
     if request.method == 'GET':
         resp = {"status": "OK"}
         return jsonify(resp)
+
 
 def get_stats():
     """Retrieve the number of each object type"""
